@@ -158,7 +158,7 @@ class ClientPortraitController extends Controller
             $creditsByCustomer[(int) $row->CustomerID][$type] = true;
         }
 
-        // 7. Денежные переводы клиентов (MoneyTransfers)
+        // 7. Денежные переводы клиентов (MoneyTransfers + справочник MoneySystems Банка Арванд)
         $transfersByCustomer = [];
         if (Schema::hasTable('MoneyTransfers')) {
             $transferRows = DB::table('MoneyTransfers as mt')
@@ -175,13 +175,15 @@ class ClientPortraitController extends Controller
                 ])
                 ->get();
 
-            $systemNames = [
-                1 => 'Золотая Корона',
-                2 => 'Юнистрим',
-                3 => 'Contact / Ria',
-                4 => 'Western Union',
-                5 => 'Внутрибанковский',
-            ];
+            $systemNames = Schema::hasTable('MoneySystems')
+                ? DB::table('MoneySystems')->pluck('Name', 'MoneySystemID')->all()
+                : [
+                    1 => 'Система «АРВАНД»',
+                    2 => 'Система «ВАТАН»',
+                    3 => 'Система «Вестерн Юнион»',
+                    4 => 'Система «Юнистрим»',
+                    5 => 'Система «Астрасенд»',
+                ];
 
             $customerIdSet = array_flip($customerIds);
 

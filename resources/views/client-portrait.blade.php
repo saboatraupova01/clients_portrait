@@ -1104,7 +1104,7 @@
                 .sort((a, b) => b[1] - a[1])
                 .map(([label, value]) => ({ label, value }))
         ];
-        renderHorizontalChart("chartTransfers", "tableTransfers", transfersChartData, 125, "#7c3aed", "#0d9488");
+        renderHorizontalChart("chartTransfers", "tableTransfers", transfersChartData, 130, "#7c3aed", "#0d9488");
         renderClientsTable(clients);
     }
 
